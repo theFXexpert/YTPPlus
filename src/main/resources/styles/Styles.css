@@ -1,0 +1,62 @@
+.root {
+    -fx-background-color: #333333;
+}
+.label {
+    -fx-text-fill: #f5f5f5;
+}
+
+.button, dialog-pane .button {
+    -fx-font-weight: bold;
+    -fx-background-color: #c0c0c0;
+    -fx-border-radius: 0;
+    -fx-background-radius: 0;
+}
+
+.button:hover {
+    -fx-background-color: #9999ff;
+}
+.button:disabled {
+    -fx-background-color: #999999;
+    -fx-text-fill: #cccccc;
+}
+.button:pressed {
+    -fx-background-color: #6666ff;
+}
+
+.check-box {
+    -fx-background-color: #333333;
+    -fx-text-fill: #f5f5f5;
+    -fx-background-radius: 0;
+}
+
+.text-field {
+    -fx-background-color: #666666;
+    -fx-text-fill: #f5f5f5;
+    -fx-background-radius: 0;
+    -fx-border-radius: 0;
+}
+
+.list-view {
+    -fx-background-color: #666666;
+    -fx-text-fill: #f5f5f5;
+}
+
+.cell {
+    -fx-background-color: #666666;
+    -fx-text-fill: #f5f5f5;
+}
+
+.cell:selected {
+    -fx-background-color: #6666ff;
+    -fx-text-fill: #f5f5f5;
+}
+
+#barProgress {
+    -fx-background-radius: 0;
+    -fx-border-radius: 0;
+}
+
+.dialog-pane {
+  -fx-background-color: #333333;
+  -fx-text-fill: #f5f5f5;
+ }

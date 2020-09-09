@@ -1,0 +1,310 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.effect.DropShadow?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.media.MediaView?>
+<!--prefHeight="470.0" prefWidth="772.0"-->
+<HBox spacing="15" xmlns:fx="http://javafx.com/fxml" fx:controller="com.ytp.ytpgen.FXMLController">
+    <padding><Insets top="15" right="15" bottom="15" left="15"/></padding>
+    <children>
+        <VBox spacing="2">
+            <children>
+                <AnchorPane prefHeight="240.0" prefWidth="320.0" style="-fx-border-color: black;">
+                    <effect>
+                        <DropShadow />
+                    </effect>
+                    <children>
+                        <MediaView fx:id="mediaviewVideoPlayer" fitHeight="240.0" fitWidth="320.0" />
+                    </children>
+                </AnchorPane>
+                <VBox spacing="1">
+                    <children>
+                        <HBox alignment="center" spacing="1" >
+                            <padding><Insets top="5" right="0" bottom="15" left="0"/></padding>
+                            <children>
+                                <Button fx:id="btnPlayVideo" mnemonicParsing="false" onAction="#playTheVideo" prefHeight="25.0" prefWidth="28.0" text="&gt;" />
+                                <Button fx:id="btnPauseVideo" mnemonicParsing="false" onAction="#pauseTheVideo" prefHeight="25.0" prefWidth="28.0" text="||" />
+                                <Button fx:id="btnRestartVideo" mnemonicParsing="false" onAction="#restartTheVideo" prefHeight="25.0" text="|&lt;" />
+                        
+                            </children>
+                        </HBox>
+                        <HBox spacing="1" alignment="CENTER_RIGHT">
+                            <children>
+                                <CheckBox fx:id="cbUseTransitions" mnemonicParsing="false" nodeOrientation="RIGHT_TO_LEFT" selected="true" text="Insert Transition Clips" />
+                                <TextField fx:id="tfSOURCES" disable="true" prefHeight="25.0" prefWidth="130.0" text="sources/" />
+                                <Button fx:id="btnBrowseSOURCES" prefHeight="25.0" prefWidth="28.0" disable="true" mnemonicParsing="false" onAction="#openBrowser" text="..." />
+                                <Button fx:id="btnHelpMeTransition" mnemonicParsing="false" onAction="#helpMeTransition" prefHeight="25.0" prefWidth="28.0" text="?" />
+                            </children>
+                        </HBox>
+                        <VBox alignment="CENTER" spacing="2" >
+                            <children>
+                                <HBox spacing="0" alignment="CENTER_LEFT">
+                                    <children>
+                                        <Label alignment="CENTER_LEFT" prefHeight="25.0" text="Transition Clip Probability: 1/" />
+                                        <Label fx:id="labTransitionProb" prefHeight="25.0" text="15" />
+                                    </children>
+                                </HBox>
+                                <Slider fx:id="sldTransitionProb" onValueChange="#updateTransitionLabel" value="15" min="2" max="100" majorTickUnit="98" minorTickCount="3" showTickMarks="true" showTickLabels="false" snapToTicks="false" /> 
+                            </children>
+                        </VBox>
+                        <HBox alignment="CENTER_RIGHT">
+                            <children>
+                                <Label alignment="CENTER_RIGHT" contentDisplay="RIGHT" prefHeight="25.0" prefWidth="200.0" text="Min Stream Duration (in seconds): " textAlignment="RIGHT" />
+                                <TextField fx:id="tfMinStream" prefHeight="25.0" prefWidth="50.0" promptText="The minimum length for a snipped clip." text="0.2" />
+                            </children>
+                        </HBox>
+                        <HBox alignment="CENTER_RIGHT">
+                            <children>
+                                <Label alignment="CENTER_RIGHT" contentDisplay="RIGHT" prefHeight="25.0" prefWidth="200.0" text="Max Stream Duration (in seconds): " textAlignment="RIGHT" />
+                                <TextField fx:id="tfMaxStream" prefHeight="25.0" prefWidth="50.0" promptText="The maximum length for a snipped clip." text="0.4" />
+                            </children>
+                        </HBox>
+                        <HBox alignment="CENTER_RIGHT">
+                            <children>
+                                <Label alignment="CENTER_RIGHT" contentDisplay="RIGHT" prefHeight="25.0" prefWidth="200.0" text="Clip count: " textAlignment="RIGHT" />
+                                <TextField fx:id="tfClipCount" prefHeight="25.0" prefWidth="50.0" promptText="The amount of clips to snip from the source material." text="20" />
+                            </children>
+                        </HBox>
+                        <HBox alignment="center_right" spacing="1">
+                            <padding><Insets top="5" right="0" bottom="0" left="0"/></padding>
+                            <children>
+                                <Button fx:id="btnReset" mnemonicParsing="false" onAction="#resetValues" prefHeight="25.0" text="Reset Clip and Effect Settings">
+                                    <tooltip>
+                                        <Tooltip text="Reset effect, transition clip, and general clip setings. This will not remove sources from your source list." />
+                                    </tooltip>
+                                </Button>
+                            </children>
+                        </HBox>
+                        <HBox alignment="center" spacing="1">
+                            <padding><Insets top="5" right="0" bottom="5" left="0"/></padding>
+                            <children>
+                                <Button fx:id="btnCreate" mnemonicParsing="false" onAction="#goNow" prefHeight="25.0" prefWidth="240.0" text="Create Video" />
+                                <Button fx:id="btnSaveAs" mnemonicParsing="false" onAction="#saveAsVideo" prefHeight="25.0" prefWidth="78.0" text="Save As..." />
+                            </children>
+                        </HBox>
+                        <HBox alignment="center" >
+                            <children>
+                                <ProgressBar fx:id="barProgress" prefHeight="16.0" prefWidth="322.0" progress="0.0" />
+                            </children>
+                        </HBox>
+                    </children>
+                </VBox>
+            </children>
+        </VBox>
+        
+        <VBox>
+            <children>
+                <VBox style="-fx-border-color: black;">
+                    <children>
+                        <HBox spacing="10" >
+                            <padding><Insets top="15" right="15" bottom="10" left="15"/></padding>
+                            <children>
+                                <Label text="Sources" underline="true" />
+                                <Button fx:id="btnAddSource" mnemonicParsing="false" onAction="#addSource" prefHeight="25.0" prefWidth="41.0" text="+ ...">
+                                    <tooltip>
+                                        <Tooltip text="Add Source..." />
+                                    </tooltip>
+                                </Button>
+                                <Button fx:id="btnRemoveSource" mnemonicParsing="false" onAction="#removeSource" prefHeight="25.0" prefWidth="41.0" text="-">
+                                    <tooltip>
+                                        <Tooltip text="Remove Selected Source" />
+                                    </tooltip>
+                                </Button>
+                            </children>
+                        </HBox>
+                        <ListView fx:id="listviewSourcesList" prefWidth="200.0" />
+                    </children>
+                </VBox>
+            </children>
+        </VBox>
+        
+        <VBox spacing="2">
+            <children>
+                <VBox style="-fx-border-color: black;">
+                    <children>
+                        <HBox spacing="80" >
+                            <padding><Insets top="15" right="15" bottom="10" left="15"/></padding>
+                            <children>
+                                <Label text="Effect Toggles" underline="true" />
+                                <Button fx:id="btnHelpMeEffect" mnemonicParsing="false" onAction="#helpMeEffect" prefHeight="25.0" prefWidth="28.0" text="?" />
+                            </children>
+                        </HBox>
+                        
+                        <VBox alignment="CENTER" spacing="2" >
+                            <padding><Insets top="0" right="15" bottom="10" left="15"/></padding>
+                            <children>
+                                <HBox spacing="0" alignment="CENTER_LEFT">
+                                    <children>
+                                        <Label prefHeight="25.0" text="Effect Probability: " />
+                                        <Label fx:id="labEffectProb" prefHeight="25.0" text="50" />
+                                        <Label prefHeight="25.0" text="\%" />
+                                    </children>
+                                </HBox>
+                                <Slider fx:id="sldEffectProb" onValueChange="#updateEffectLabel" value="50" min="1" max="100" majorTickUnit="49" minorTickCount="1" showTickMarks="true" showTickLabels="true" snapToTicks="false" /> 
+                            </children>
+                        </VBox>
+                        
+                        <HBox spacing="1" alignment="CENTER" >
+                            <padding><Insets top="0" right="15" bottom="10" left="15"/></padding>
+                            <children>
+                                <Button fx:id="btnSelectAll" mnemonicParsing="false" onAction="#selectAll" prefHeight="25.0" text="Select All" />
+                                <Button fx:id="btnSelectNone" mnemonicParsing="false" onAction="#selectNone" prefHeight="25.0" text="Clear Selection" />
+                            </children>
+                        </HBox>
+                        <VBox>
+                            <padding><Insets top="0" right="15" bottom="10" left="15"/></padding>
+                            <children>
+                                <CheckBox fx:id="cbEffect1" mnemonicParsing="false" selected="true" text="Random Sound" />
+                                <CheckBox fx:id="cbEffect2" mnemonicParsing="false" selected="true" text="Random Sound (Mute OG)" />
+                                <CheckBox fx:id="cbEffect3" mnemonicParsing="false" selected="true" text="Reverse Clip" />
+                                <CheckBox fx:id="cbEffect4" mnemonicParsing="false" selected="true" text="Speed Up Clip (no pitch)" />
+                                <CheckBox fx:id="cbEffect5" mnemonicParsing="false" selected="true" text="Slow Down Clip (no pitch)" />
+                                <CheckBox fx:id="cbEffect6" mnemonicParsing="false" selected="true" text="Chorus Audio" />
+                                <CheckBox fx:id="cbEffect7" mnemonicParsing="false" selected="true" text="Vibrato Audio" />
+                                <CheckBox fx:id="cbEffect8" mnemonicParsing="false" selected="true" text="Speed Up Clip (/pitch)" />
+                                <CheckBox fx:id="cbEffect9" mnemonicParsing="false" selected="true" text="Slow Down Clip (/pitch)" />
+                                <CheckBox fx:id="cbEffect10" mnemonicParsing="false" selected="true" text="Dance" />
+                                <CheckBox fx:id="cbEffect11" mnemonicParsing="false" selected="true" text="Squidward" />
+                                <CheckBox fx:id="cbEffect12" mnemonicParsing="false" selected="true" text="Invert" />
+                                <CheckBox fx:id="cbEffect13" mnemonicParsing="false" selected="true" text="Rainbow" />
+                                <CheckBox fx:id="cbEffect14" mnemonicParsing="false" selected="true" text="Screen Flip" />
+                                <CheckBox fx:id="cbEffect15" mnemonicParsing="false" selected="true" text="Mirror" />
+                                <CheckBox fx:id="cbEffect16" mnemonicParsing="false" selected="true" text="SuS" />
+                                <CheckBox fx:id="cbEffect17" mnemonicParsing="false" selected="true" text="Stutter Loop" />
+                                <CheckBox fx:id="cbEffect18" mnemonicParsing="false" selected="true" text="Loop Frames" />
+                                <CheckBox fx:id="cbEffect19" mnemonicParsing="false" selected="true" text="Shuffle Frames" />
+                                <CheckBox fx:id="cbEffect20" mnemonicParsing="false" selected="true" text="Audio Crust" />
+<!--                            <CheckBox fx:id="cbEffect21" mnemonicParsing="false" selected="true" text="Experimental" />-->
+                            </children>
+                        </VBox>
+                    </children>
+                </VBox>
+            </children>
+        </VBox>
+        
+        <VBox spacing="15">
+            <children>
+                <VBox style="-fx-border-color: black;">
+                    <children>
+                        <HBox spacing="60">
+                            <padding><Insets top="15" right="15" bottom="10" left="15"/></padding>
+                            <children>
+                                <Label text="Configuration" underline="true" />
+                                <Button fx:id="btnHelpMeConfig" mnemonicParsing="false" onAction="#helpMeConfig" prefHeight="25.0" prefWidth="28.0" text="?" />
+                            </children>
+                        </HBox>
+                        <VBox>
+                            <padding><Insets top="0" right="15" bottom="10" left="15"/></padding>
+                            <children>
+                                <HBox>
+                                    <children>
+                                        <Label text="ffmpeg:" underline="true" />
+                                    </children>
+                                </HBox>
+                                <HBox>
+                                    <children>
+                                        <TextField fx:id="tfFFMPEG" prefHeight="25.0" prefWidth="130.0" text="ffmpeg" />
+                                        <Button fx:id="btnBrowseFFMPEG" prefHeight="25.0" prefWidth="28.0" mnemonicParsing="false" onAction="#openBrowser" text="..." />
+                                    </children>
+                                </HBox>
+                                <HBox>
+                                    <children>
+                                        <Label text="ffprobe:" underline="true" />
+                                    </children>
+                                </HBox>
+                                <HBox>
+                                    <children>
+                                        <TextField fx:id="tfFFPROBE" prefHeight="25.0" prefWidth="130.0" text="ffprobe" />
+                                        <Button fx:id="btnBrowseFFPROBE" prefHeight="25.0" prefWidth="28.0" mnemonicParsing="false" onAction="#openBrowser" text="..." />
+                                    </children>
+                                </HBox>
+                                <HBox>
+                                    <children>
+                                        <Label text="magick:" underline="true" />
+                                    </children>
+                                </HBox>
+                                <HBox>
+                                    <children>
+                                        <TextField fx:id="tfMAGICK" prefHeight="25.0" prefWidth="130.0" text="magick" />
+                                        <Button fx:id="btnBrowseMAGICK" prefHeight="25.0" prefWidth="28.0" mnemonicParsing="false" onAction="#openBrowser" text="..." />
+                                    </children>
+                                </HBox>
+                                <HBox>
+                                    <children>
+                                        <Label text="temp dir:" underline="true" />
+                                    </children>
+                                </HBox>
+                                <HBox>
+                                    <children>
+                                        <TextField fx:id="tfTEMP" disable="true" prefHeight="25.0" prefWidth="130.0" text="temp/" />
+                                        <Button fx:id="btnBrowseTEMP" prefHeight="25.0" prefWidth="28.0" disable="true" mnemonicParsing="false" onAction="#openBrowser" text="..." />
+                                    </children>
+                                </HBox>
+                                <HBox>
+                                    <children>
+                                        <Label text="sounds dir:" underline="true" />
+                                    </children>
+                                </HBox>
+                                <HBox>
+                                    <children>
+                                        <TextField fx:id="tfSOUNDS" disable="true" prefHeight="25.0" prefWidth="130.0" text="sounds/" />
+                                        <Button fx:id="btnBrowseSOUNDS" prefHeight="25.0" prefWidth="28.0" disable="true" mnemonicParsing="false" onAction="#openBrowser" text="..." />
+                                    </children>
+                                </HBox>
+                                <HBox>
+                                    <children>
+                                        <Label text="music dir:" underline="true" />
+                                    </children>
+                                </HBox>
+                                <HBox>
+                                    <children>
+                                        <TextField fx:id="tfMUSIC" disable="true" prefHeight="25.0" prefWidth="130.0" text="music/" />
+                                        <Button fx:id="btnBrowseMUSIC" prefHeight="25.0" prefWidth="28.0" disable="true" mnemonicParsing="false" onAction="#openBrowser" text="..." />
+                                    </children>
+                                </HBox>
+                                <HBox>
+                                    <children>
+                                        <Label text="resources dir (for fx):" underline="true" />
+                                    </children>
+                                </HBox>
+                                <HBox>
+                                    <children>
+                                        <TextField fx:id="tfRESOURCES" disable="true" prefHeight="25.0" prefWidth="130.0" text="resources/" />
+                                        <Button fx:id="btnBrowseRESOURCES" prefHeight="25.0" prefWidth="28.0" disable="true" mnemonicParsing="false" onAction="#openBrowser" text="..." />
+                                    </children>
+                                </HBox>
+                                <HBox alignment="center" >
+                                    <padding><Insets top="10" right="0" bottom="0" left="0"/></padding>
+                                    <children>
+                                        <Button fx:id="btnShowCredits" prefHeight="25.0" mnemonicParsing="false" onAction="#showCredits" text="Credits" />
+                                    </children>
+                                </HBox>
+                            </children>
+                        </VBox>
+                    </children>
+                </VBox>
+                
+                <VBox style="-fx-border-color: black;" spacing="2" >
+                    <padding><Insets top="15" right="15" bottom="10" left="15"/></padding>
+                    <children>
+                        <CheckBox fx:id="cbAllowEffectStacking" onAction="#toggleEffectStackSlider" mnemonicParsing="false" selected="false" text="Enable Effect Stacking" />
+                        <HBox spacing="0" alignment="CENTER_LEFT">
+                            <children>
+                                <Label prefHeight="25.0" text="Max Effect Stack Level: " />
+                                <Label fx:id="labEffectStack" prefHeight="25.0" text="2" />
+                            </children>
+                        </HBox>
+                        <Slider fx:id="sldEffectStack" onValueChange="#updateEffectStackLabel" value="2" min="2" max="4" majorTickUnit="1" minorTickCount="1" showTickMarks="true" showTickLabels="true" snapToTicks="false" disable="true" /> 
+                    </children>
+                </VBox>
+            </children>
+        </VBox>
+    </children>
+</HBox>

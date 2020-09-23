@@ -11,7 +11,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.media.MediaView?>
 <!--prefHeight="470.0" prefWidth="772.0"-->
-<HBox spacing="15" xmlns:fx="http://javafx.com/fxml" fx:controller="com.ytp.ytpgen.FXMLController">
+<HBox spacing="15" xmlns:fx="http://javafx.com/fxml" fx:controller="com.ytp.ytpplus.FXMLController">
     <padding><Insets top="15" right="15" bottom="15" left="15"/></padding>
     <children>
         <VBox spacing="2">

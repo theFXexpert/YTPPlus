@@ -11,7 +11,7 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <mainClass>com.ytp.ytpgen.MainApp</mainClass>
+        <mainClass>com.ytp.ytpplus.MainApp</mainClass>
     </properties>
 
     <organization>
